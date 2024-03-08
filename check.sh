@@ -14,9 +14,9 @@
 # gh repo sync
 
 # GitHub repository information
-REPO_OWNER="username"
-REPO_NAME="repository"
-BRANCH_NAME="main"  # or specify the branch you want to work with
+# REPO_OWNER="username"
+# REPO_NAME="repository"
+# BRANCH_NAME="main"  # or specify the branch you want to work with
 SEARCH_KEY="app-name"
 REPLACE_KEY="app-name"
 REPLACE_VALUE="new_value"
