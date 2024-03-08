@@ -15,7 +15,6 @@ with:
 java-version: '8'
 - name: Build with Maven
 run: mvn clean install
-simplespringapp3=changed ap name
 - uses: azure/login@v1
 with:
 creds: ${{ secrets.AZURE_CREDENTIALS }}
