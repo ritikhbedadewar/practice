@@ -1,36 +1,28 @@
-
-
 name: Build and deploy JAR app to Azure Web App - simple-spring-app
-
 on:
-  push:
-    branches:
-      - main
-
-  workflow_dispatch:
+push:
+branches:
+- main
+workflow_dispatch:
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@master
-
-    - name: Set up Java version
-      uses: actions/setup-java@v1
-      with:
-        java-version: '8'
-
-    - name: Build with Maven
-      run: mvn clean install
-      
-    - uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        auth-type: SERVICE_PRINCIPAL 
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'simplespringapp3'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_7f47878fe7064bbfa1cc1b246d5163c7 }}
-        package: '${{ github.workspace }}/target/*.jar'
+build-and-deploy:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@master
+- name: Set up Java version
+uses: actions/setup-java@v1
+with:
+java-version: '8'
+- name: Build with Maven
+run: mvn clean install
+simplespringapp3=changed ap name
+- uses: azure/login@v1
+with:
+creds: ${{ secrets.AZURE_CREDENTIALS }}
+auth-type: SERVICE_PRINCIPAL 
+- name: Deploy to Azure Web App
+uses: azure/webapps-deploy@v2
+with:
+slot-name: 'production'
+publish-profile: ${{ secrets.AzureAppService_PublishProfile_7f47878fe7064bbfa1cc1b246d5163c7 }}
+package: '${{ github.workspace }}/target/*.jar'
