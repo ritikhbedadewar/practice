@@ -22,7 +22,7 @@ auth-type: SERVICE_PRINCIPAL
 - name: Deploy to Azure Web App
 uses: azure/webapps-deploy@v2
 with:
-app-name: 'changed ap name'
+app-name: 'simplespringapp3'
 slot-name: 'production'
 publish-profile: ${{ secrets.AzureAppService_PublishProfile_7f47878fe7064bbfa1cc1b246d5163c7 }}
 package: '${{ github.workspace }}/target/*.jar'
