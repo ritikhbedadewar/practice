@@ -30,7 +30,7 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'simplespringapp3'
+        app-name: 'changed ap name'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_7f47878fe7064bbfa1cc1b246d5163c7 }}
         package: '${{ github.workspace }}/target/*.jar'
