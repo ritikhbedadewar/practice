@@ -20,7 +20,7 @@
 SEARCH_KEY="app-name"
 REPLACE_KEY="app-name"
 REPLACE_VALUE="new_value"
-GITHUB_TOKEN="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"
+# GITHUB_TOKEN="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"
 
 # Function to search and replace key-value pair
 search_replace() {
