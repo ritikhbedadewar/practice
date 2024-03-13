@@ -15,7 +15,7 @@
 #!/bin/bash
 
 # Directory where your repository is located
-REPO_DIR="/path/to/your/repository"
+REPO_DIR="."
 
 # Key to find and replace
 KEY="app-name"
