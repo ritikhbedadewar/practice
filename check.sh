@@ -24,10 +24,10 @@ KEY="app-name"
 NEW_VALUE="null"
 
 # Find and replace in YAML files
-find "$REPO_DIR" -type f \( -name '*.yaml' -o -name '*.yml' \) -exec sed -i "s/$KEY:.*/$KEY: $NEW_VALUE/g" {} +
+find "$REPO_DIR" -type f \( -name '*.yaml' -o -name '*.yml' -o -name "*.properties" \) -exec sed -i "s/$KEY:.*/$KEY: $NEW_VALUE/g" {} +
 
 # Find and replace in properties files
-find "$REPO_DIR" -type f -name '*.properties' -exec sed -i "s/$KEY=.*/$KEY=$NEW_VALUE/g" {} +
+#find "$REPO_DIR" -type f -name '*.properties' -exec sed -i "s/$KEY=.*/$KEY=$NEW_VALUE/g" {} +
 
 echo "Replacement completed."
 
