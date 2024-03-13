@@ -13,43 +13,37 @@
 # gh repo view -w
 # gh repo sync
 
-# GitHub repository information
-REPO_OWNER="ritikhbedadewar"
-REPO_NAME="practice"
-BRANCH_NAME="main"  # or specify the branch you want to work with
-SEARCH_KEY="app-name"
-REPLACE_KEY="app-name"
-REPLACE_VALUE="new_value"
-GITHUB_TOKEN="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"
+#!/bin/bash
 
-# Function to search and replace key-value pair
-search_replace() {
-    updated_content=$(echo "$1" | sed "s/$SEARCH_KEY: .*/$REPLACE_KEY: $REPLACE_VALUE/")
-    echo "$updated_content"
+# Function to replace in YAML files
+replace_in_yaml() {
+    local file="$1"
+    local key="$2"
+    local new_value="$3"
+    sed -i "s/$key: .*/$key: $new_value/g" "$file"
 }
 
-# Function to update file in repository
-update_file() {
-    file_path="$1"
-    content="$2"
-    sha="$3"
-    url="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/contents/$file_path"
-    data="{\"message\": \"Update key-value pair '$SEARCH_KEY' with '$REPLACE_KEY: $REPLACE_VALUE'\", \"content\": \"$(echo -n "$content" | base64)\", \"sha\": \"$sha\", \"branch\": \"$BRANCH_NAME\"}"
-    curl -s -X PUT -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" -d "$data" "$url" > /dev/null
+# Function to replace in properties files
+replace_in_properties() {
+    local file="$1"
+    local key="$2"
+    local new_value="$3"
+    sed -i "s/$key=.*/$key=$new_value/g" "$file"
 }
 
-# Get list of files in repository
-files_url="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/git/trees/$BRANCH_NAME?recursive=1"
-response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" "$files_url")
-files=$(echo "$response" | jq -r '.tree[] | select(.type == "blob") | .path')
+# Directory where your repository is located
+REPO_DIR="."
 
-# Process files in repository
-for file_path in $files; do
-    if [[ $file_path == *.yaml || $file_path == *.yml || $file_path == *.properties ]]; then
-        content=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" "https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$BRANCH_NAME/$file_path")
-        updated_content=$(search_replace "$content")
-        sha=$(echo "$response" | jq -r --arg file_path "$file_path" '.tree[] | select(.type == "blob" and .path == $file_path) | .sha')
-        update_file "$file_path" "$updated_content" "$sha"
-        echo "Updated key-value pair in file: $file_path"
-    fi
-done
+# Key to find and replace
+KEY="app-name"
+
+# Replacement value
+NEW_VALUE="null"
+
+# Find and replace in YAML files
+find "$REPO_DIR" -type f \( -name '*.yaml' -o -name '*.yml' \) -exec bash -c 'replace_in_yaml "$0" "$1" "$2"' {} "$KEY" "$NEW_VALUE" \;
+
+# Find and replace in properties files
+find "$REPO_DIR" -type f -name '*.properties' -exec bash -c 'replace_in_properties "$0" "$1" "$2"' {} "$KEY" "$NEW_VALUE" \;
+
+echo "Replacement completed."
