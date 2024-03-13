@@ -15,7 +15,7 @@
 #!/bin/bash
 
 # Directory where your repository is located
-REPO_DIR="."
+REPO_DIR="/path/to/your/repository"
 
 # Key to find and replace
 KEY="app-name"
@@ -30,4 +30,5 @@ find "$REPO_DIR" -type f \( -name '*.yaml' -o -name '*.yml' \) -exec sed -i "s/$
 find "$REPO_DIR" -type f -name '*.properties' -exec sed -i "s/$KEY=.*/$KEY=$NEW_VALUE/g" {} +
 
 echo "Replacement completed."
+
 
