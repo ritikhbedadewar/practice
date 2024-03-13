@@ -12,27 +12,10 @@
 # git commit -m "Replace '$SEARCH_TEXT' with '$REPLACE_TEXT'"
 # gh repo view -w
 # gh repo sync
-
 #!/bin/bash
 
-# Function to replace in YAML files
-replace_in_yaml() {
-    local file="$1"
-    local key="$2"
-    local new_value="$3"
-    sed -i "s/$key: .*/$key: $new_value/g" "$file"
-}
-
-# Function to replace in properties files
-replace_in_properties() {
-    local file="$1"
-    local key="$2"
-    local new_value="$3"
-    sed -i "s/$key=.*/$key=$new_value/g" "$file"
-}
-
 # Directory where your repository is located
-REPO_DIR="."
+REPO_DIR="/path/to/your/repository"
 
 # Key to find and replace
 KEY="app-name"
@@ -41,9 +24,10 @@ KEY="app-name"
 NEW_VALUE="null"
 
 # Find and replace in YAML files
-find "$REPO_DIR" -type f \( -name '*.yaml' -o -name '*.yml' \) -exec bash -c 'replace_in_yaml "$0" "$1" "$2"' {} "$KEY" "$NEW_VALUE" \;
+find "$REPO_DIR" -type f \( -name '*.yaml' -o -name '*.yml' \) -exec sed -i "s/$KEY:.*/$KEY: $NEW_VALUE/g" {} +
 
 # Find and replace in properties files
-find "$REPO_DIR" -type f -name '*.properties' -exec bash -c 'replace_in_properties "$0" "$1" "$2"' {} "$KEY" "$NEW_VALUE" \;
+find "$REPO_DIR" -type f -name '*.properties' -exec sed -i "s/$KEY=.*/$KEY=$NEW_VALUE/g" {} +
 
 echo "Replacement completed."
+
